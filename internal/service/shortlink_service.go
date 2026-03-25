@@ -27,7 +27,28 @@ func (s *shortlinkService) CreateShortlink(originalURL string) (*model.Shortlink
 		return nil, ErrInvalidURL
 	}
 
-	code, err := utils.GenerateShortCode()
+	// Check if already exists to handle duplicate URLs as requested
+	existing, err := s.repo.FindByOriginalURL(originalURL)
+	if err == nil && existing != nil {
+		return existing, nil
+	}
+
+	var code string
+	for {
+		code, err = utils.GenerateShortCode()
+		if err != nil {
+			return nil, err
+		}
+
+		// Ensure short code uniqueness
+		_, err := s.repo.FindByID(code)
+		if err != nil {
+			if errors.Is(err, repository.ErrNotFound) {
+				break
+			}
+			return nil, err
+		}
+	}
 
 	shortlink := &model.Shortlink{
 		ID:          code,

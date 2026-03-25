@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func NewConfig() (*Config, error) {
-	// Attempt to load .env file; it's okay if it doesn't exist (e.g., in docker/production)
+	// Attempt to load .env file;
 	_ = godotenv.Load()
 
 	config := &Config{

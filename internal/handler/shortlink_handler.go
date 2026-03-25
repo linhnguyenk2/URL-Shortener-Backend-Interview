@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"urlshortener/internal/repository"
 	"urlshortener/internal/service"
 
 	"github.com/gin-gonic/gin"
@@ -49,4 +50,24 @@ func (h *ShortlinkHandler) CreateShortlink(c *gin.Context) {
 		ShortURL: h.host + "/shortlinks/" + shortlink.ID,
 	}
 	c.JSON(http.StatusCreated, resp)
+}
+
+func (h *ShortlinkHandler) GetDetail(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+		return
+	}
+
+	shortlink, err := h.svc.GetShortlink(id)
+	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "shortlink not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get shortlink details"})
+		return
+	}
+
+	c.JSON(http.StatusOK, shortlink)
 }

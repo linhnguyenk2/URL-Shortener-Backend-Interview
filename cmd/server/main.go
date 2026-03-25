@@ -46,6 +46,7 @@ func main() {
 	api := r.Group("/api")
 	{
 		api.POST("/shortlinks", hdl.CreateShortlink)
+		api.GET("/shortlinks/:id", hdl.GetDetail)
 	}
 
 	// Start server

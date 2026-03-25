@@ -64,6 +64,10 @@ func (s *shortlinkService) CreateShortlink(originalURL string) (*model.Shortlink
 	return shortlink, nil
 }
 
+func (s *shortlinkService) GetShortlink(id string) (*model.Shortlink, error) {
+	return s.repo.FindByID(id)
+}
+
 func isValidURL(str string) bool {
 	u, err := url.ParseRequestURI(str)
 	return err == nil && u.Scheme != "" && u.Host != ""

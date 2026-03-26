@@ -42,7 +42,11 @@ func main() {
 	r.Use(ZerologLogger(logger))
 	r.Use(gin.Recovery())
 
-	// API Routes
+	// API Routes - SAMPLE FOR DEMO ONLY
+	// Production requirements:
+	// 1. API versioning (e.g., /api/v1)
+	// 2. Separate router for each module
+	// 3. Add v1 prefix for service layer
 	api := r.Group("/api")
 	{
 		api.POST("/shortlinks", hdl.CreateShortlink)

@@ -45,3 +45,15 @@ curl -X GET http://localhost:8080/api/shortlinks/abc1234
 curl -v http://localhost:8080/shortlinks/abc1234
 ```
 Expect an HTTP 302 redirect back to the `original_url`.
+
+
+## Run Unit Test
+
+```bash
+# Run all tests
+go test -v ./...
+
+# Run tests with coverage
+go test -v -coverprofile=coverage.out ./...
+go tool cover -html=coverage.out
+```

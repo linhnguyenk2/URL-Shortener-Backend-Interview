@@ -1,3 +1,11 @@
+## Setup and Run
+
+### Running with Docker Compose
+
+1. Clone the repository
+2. Run `docker-compose up --build`
+3. The server will start at `http://localhost:8080`
+
 ### Running Locally
 
 1. Start a PostgreSQL instance on port 5432 (or modify the `DATABASE_URL` env variable).

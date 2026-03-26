@@ -49,6 +49,9 @@ func main() {
 		api.GET("/shortlinks/:id", hdl.GetDetail)
 	}
 
+	// Redirect Route
+	r.GET("/shortlinks/:id", hdl.Redirect)
+
 	// Start server
 	logger.Info().Msgf("Starting server on port %s", cfg.Port)
 	if err := r.Run(":" + cfg.Port); err != nil {
